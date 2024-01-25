@@ -8,5 +8,5 @@ def attach_parser(subparsers):
 
 def exec(args):
     dirr = os.path.dirname(os.path.abspath(__file__))
-    script = os.path.join(dirr, 'printfile')
+    script = os.path.join(dirr, 'printfile.sh')
     subprocess.call(f"bash {script} {args.FILE}".split())
