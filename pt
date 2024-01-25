@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-import sys
-import subprocess
 import argparse
 import printfile.printfile as printfile
 
@@ -9,17 +7,16 @@ root_parser = argparse.ArgumentParser(prog="pt", description="CLI for the UCF Pr
 root_parser.add_argument("--override", action="store_true", help="Override checks like the 'During Practice' check")
 subparsers = root_parser.add_subparsers(title="Commands", dest='pt_subcommand')
 
-# printfile_parser = subparsers.add_parser("printfile", help="Formats and prints a source file")
-# printfile_parser.add_argument("FILE", help="The source file to print")
-
+# Attach all the parsers
 printfile.attach_parser(subparsers)
 
-minecraft_parser = subparsers.add_parser("minecraft", help="Run minecraft!")
-
-
+# Parse args
 args = root_parser.parse_args()
 
+# Run commands that don't need override
 if args.pt_subcommand == 'printfile':
     printfile.exec(args)
-else:
-    print(args)
+    exit(0)
+
+# TODO
+print(args)
