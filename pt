@@ -4,6 +4,7 @@ import argparse
 import printfile.printfile as printfile
 import minecraft.minecraft as minecraft
 import veris.veris as veris
+import quota.quota as quota
 from datetime import datetime
 
 root_parser = argparse.ArgumentParser(prog="pt", description="CLI for the UCF Programming Team")
@@ -14,6 +15,7 @@ subparsers = root_parser.add_subparsers(title="Commands", dest='pt_subcommand')
 printfile.attach_parser(subparsers)
 minecraft.attach_parser(subparsers)
 veris.attach_parser(subparsers)
+quota.attach_parser(subparsers)
 
 # Parse args
 args = root_parser.parse_args()
@@ -24,6 +26,9 @@ if args.pt_subcommand == 'printfile':
     exit(0)
 if args.pt_subcommand == 'veris':
     veris.exec(args)
+    exit(0)
+if args.pt_subcommand == 'quota':
+    quota.exec(args)
     exit(0)
 
 def is_saturday_afternoon():
