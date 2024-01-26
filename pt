@@ -2,6 +2,9 @@
 
 import argparse
 import printfile.printfile as printfile
+import minecraft.minecraft as minecraft
+import veris.veris as veris
+from datetime import datetime
 
 root_parser = argparse.ArgumentParser(prog="pt", description="CLI for the UCF Programming Team")
 root_parser.add_argument("--override", action="store_true", help="Override checks like the 'During Practice' check")
@@ -9,6 +12,8 @@ subparsers = root_parser.add_subparsers(title="Commands", dest='pt_subcommand')
 
 # Attach all the parsers
 printfile.attach_parser(subparsers)
+minecraft.attach_parser(subparsers)
+veris.attach_parser(subparsers)
 
 # Parse args
 args = root_parser.parse_args()
@@ -16,6 +21,23 @@ args = root_parser.parse_args()
 # Run commands that don't need override
 if args.pt_subcommand == 'printfile':
     printfile.exec(args)
+    exit(0)
+if args.pt_subcommand == 'veris':
+    veris.exec(args)
+    exit(0)
+
+def is_saturday_afternoon():
+    now = datetime.now()
+    return now.weekday() == 5 and 12 <= now.hour < 18
+
+if is_saturday_afternoon() and not args.override:
+    print(f"Hey, is practice happening right now? If so, you probably shouldn't be using {args.pt_subcommand}.")
+    print("You can override this behavior with pt --override [ARGS], but only do that if practice isn't running!")
+    exit(0)
+
+# Run commands after checks are satisfied
+if args.pt_subcommand == 'minecraft':
+    minecraft.exec(args)
     exit(0)
 
 # TODO
