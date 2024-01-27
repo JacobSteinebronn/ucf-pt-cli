@@ -6,6 +6,8 @@ import minecraft.minecraft as minecraft
 import veris.veris as veris
 import quota.quota as quota
 import hackpack.hackpack as hackpack
+import hash.hash as hash_
+
 from datetime import datetime
 
 root_parser = argparse.ArgumentParser(prog="pt", description="CLI for the UCF Programming Team")
@@ -18,6 +20,7 @@ minecraft.attach_parser(subparsers)
 veris.attach_parser(subparsers)
 quota.attach_parser(subparsers)
 hackpack.attach_parser(subparsers)
+hash_.attach_parser(subparsers)
 
 # Parse args
 args = root_parser.parse_args()
@@ -48,6 +51,9 @@ if args.pt_subcommand == 'minecraft':
     exit(0)
 if args.pt_subcommand == 'hackpack':
     hackpack.exec(args)
+    exit(0)
+if args.pt_subcommand == 'hash':
+    hash_.exec(args)
     exit(0)
 
 # TODO
