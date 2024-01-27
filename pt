@@ -5,6 +5,7 @@ import printfile.printfile as printfile
 import minecraft.minecraft as minecraft
 import veris.veris as veris
 import quota.quota as quota
+import hackpack.hackpack as hackpack
 from datetime import datetime
 
 root_parser = argparse.ArgumentParser(prog="pt", description="CLI for the UCF Programming Team")
@@ -16,6 +17,7 @@ printfile.attach_parser(subparsers)
 minecraft.attach_parser(subparsers)
 veris.attach_parser(subparsers)
 quota.attach_parser(subparsers)
+hackpack.attach_parser(subparsers)
 
 # Parse args
 args = root_parser.parse_args()
@@ -43,6 +45,9 @@ if is_saturday_afternoon() and not args.override:
 # Run commands after checks are satisfied
 if args.pt_subcommand == 'minecraft':
     minecraft.exec(args)
+    exit(0)
+if args.pt_subcommand == 'hackpack':
+    hackpack.exec(args)
     exit(0)
 
 # TODO
