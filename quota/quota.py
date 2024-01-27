@@ -4,7 +4,6 @@ import subprocess
 import time
 import sys
 import shutil 
-from colorama import Fore
 
 def attach_parser(subparsers):
     cur = subparsers.add_parser("quota", help="Explore and clean up your disk quota")
@@ -67,28 +66,29 @@ def format_bytes(size):
 terminal_size = shutil.get_terminal_size()
 terminal_width = terminal_size.columns
 
+RESET = '\033[00m'
+cols = ['\033[91m', '\033[93m', '\033[92m', '\033[96m', '\033[34m', '\033[94m', '\033[95m']
+
 def print_data(cwd, data):
     tot_size = data[0][0]
     assert data[0][1] == '.'
     print(f"{cwd} total size: {format_bytes(tot_size)}")
     tot_squares = terminal_width - 4
 
-    cols = [Fore.RED, Fore.YELLOW, Fore.GREEN, Fore.CYAN, Fore.BLUE, Fore.MAGENTA]
-    
     bar = '['
     guys = []
     for i, (siz, name, is_dir) in enumerate(data[1:10]):
-        cur_col = cols[i] if i < len(cols) else Fore.RESET
+        cur_col = cols[i] if i < len(cols) else RESET
         squares = int(siz / tot_size * tot_squares)
         sbar = cur_col + '█' * squares
         bar += sbar
         guys.append(cur_col + f"{format_bytes(siz)} {name} {'(Dir)' if is_dir else '(File)'}")
     while len(bar)-1 < tot_squares:
-        bar += Fore.RESET + '█'
+        bar += RESET + '█'
     bar += ']'
     print(bar)
     for guy in guys: print(guy)
-    print(Fore.RESET, end='', flush=True)
+    print(RESET, end='', flush=True)
 
 def loop(cwd):
     data = get_data(cwd)
